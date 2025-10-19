@@ -147,6 +147,7 @@
             background: #1e1e1e;
             color: #d4d4d4;
             padding: 25px;
+            padding-top: 45px;
             border-radius: 10px;
             overflow-x: auto;
             font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
@@ -161,27 +162,29 @@
             position: absolute;
             top: 10px;
             right: 10px;
-            background: #667eea;
+            background: rgba(102, 126, 234, 0.9);
             color: white;
             border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 0.85em;
+            font-size: 1.1em;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 5px;
+            justify-content: center;
             z-index: 10;
+            backdrop-filter: blur(10px);
         }
 
         .copy-btn:hover {
-            background: #764ba2;
-            transform: scale(1.05);
+            background: rgba(118, 75, 162, 0.9);
+            transform: scale(1.1);
         }
 
         .copy-btn.copied {
-            background: #28a745;
+            background: rgba(40, 167, 69, 0.9);
         }
 
         .keyword {
@@ -374,12 +377,14 @@
 
             .code-block {
                 padding: 15px;
+                padding-top: 45px;
                 font-size: 0.85em;
             }
 
             .copy-btn {
-                font-size: 0.75em;
-                padding: 6px 10px;
+                width: 32px;
+                height: 32px;
+                font-size: 1em;
             }
 
             table {
@@ -498,16 +503,16 @@
                 </table>
                 <p><strong>Exemple :</strong></p>
                 <div class="code-container">
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copier le code">📋</button>
                     <div class="code-block">f = <span class="function">open</span>(<span class="string">"notes.txt"</span>, <span class="string">"r"</span>)</div>
                 </div>
                 <p>ouvre le fichier physique <strong>notes.txt</strong> en lecture.</p>
             </div>
 
             <div class="card">
-                <h2><span class="emoji">🔄</span> 3️⃣ Parcourir un fichier texte</h2>
+                <h2><span class="emoji">📄</span> 3️⃣ Parcourir un fichier texte</h2>
                 <div class="code-container">
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copier le code">📋</button>
                     <div class="code-block"><span class="keyword">def</span> <span class="function">parcourir_texte</span>(nom_fichier):
     f = <span class="function">open</span>(nom_fichier, <span class="string">"r"</span>)
     ligne = f.<span class="function">readline</span>()
@@ -523,7 +528,7 @@
                 <h2><span class="emoji">👁️</span> 4️⃣ Afficher le contenu</h2>
                 <h3>a) Affichage total</h3>
                 <div class="code-container">
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copier le code">📋</button>
                     <div class="code-block"><span class="keyword">def</span> <span class="function">afficher_total</span>(nom_fichier):
     f = <span class="function">open</span>(nom_fichier, <span class="string">"r"</span>)
     contenu = f.<span class="function">read</span>()
@@ -533,7 +538,7 @@
 
                 <h3>b) Affichage selon condition</h3>
                 <div class="code-container">
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copier le code">📋</button>
                     <div class="code-block"><span class="keyword">def</span> <span class="function">afficher_selon_condition</span>(nom_fichier):
     f = <span class="function">open</span>(nom_fichier, <span class="string">"r"</span>)
     ligne = f.<span class="function">readline</span>()
@@ -550,7 +555,7 @@
                 <h2><span class="emoji">🧩</span> 5️⃣ Remplir un fichier texte</h2>
                 <h3>a) Nombre de lignes connu</h3>
                 <div class="code-container">
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copier le code">📋</button>
                     <div class="code-block"><span class="keyword">def</span> <span class="function">remplir_texte</span>(nom_fichier, n):
     f = <span class="function">open</span>(nom_fichier, <span class="string">"w"</span>)
     <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(n):
@@ -561,7 +566,7 @@
 
                 <h3>b) Nombre de lignes inconnu</h3>
                 <div class="code-container">
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copier le code">📋</button>
                     <div class="code-block"><span class="keyword">def</span> <span class="function">remplir_texte</span>(nom_fichier):
     f = <span class="function">open</span>(nom_fichier, <span class="string">"w"</span>)
     rep = <span class="string">"O"</span>
@@ -578,7 +583,7 @@
             <div class="card">
                 <h2><span class="emoji">🧮</span> 6️⃣ Compter les lignes</h2>
                 <div class="code-container">
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copier le code">📋</button>
                     <div class="code-block"><span class="keyword">def</span> <span class="function">nombre_lignes</span>(nom_fichier):
     f = <span class="function">open</span>(nom_fichier, <span class="string">"r"</span>)
     n = <span class="number">0</span>
@@ -594,7 +599,7 @@
             <div class="card">
                 <h2><span class="emoji">🔍</span> 7️⃣ Rechercher une chaîne</h2>
                 <div class="code-container">
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copier le code">📋</button>
                     <div class="code-block"><span class="keyword">def</span> <span class="function">rechercher_chaine</span>(nom_fichier, motif):
     f = <span class="function">open</span>(nom_fichier, <span class="string">"r"</span>)
     trouve = <span class="keyword">False</span>
@@ -613,7 +618,7 @@
             <div class="card">
                 <h2><span class="emoji">❌</span> 8️⃣ Supprimer une ligne</h2>
                 <div class="code-container">
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copier le code">📋</button>
                     <div class="code-block"><span class="keyword">from</span> numpy <span class="keyword">import</span> array
 
 <span class="keyword">def</span> <span class="function">supprimer_ligne</span>(nom_fichier, ligne_sup):
@@ -639,7 +644,7 @@
             <div class="card">
                 <h2><span class="emoji">🔢</span> 9️⃣ Trier les lignes</h2>
                 <div class="code-container">
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copier le code">📋</button>
                     <div class="code-block"><span class="keyword">from</span> numpy <span class="keyword">import</span> array
 
 <span class="keyword">def</span> <span class="function">trier_fichier_texte</span>(nom_fichier):
@@ -693,7 +698,7 @@
                 </div>
 
                 <div class="code-container">
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copier le code">📋</button>
                     <div class="code-block"><span class="keyword">from</span> pickle <span class="keyword">import</span> dump, load</div>
                 </div>
             </div>
@@ -727,7 +732,7 @@
                     </tbody>
                 </table>
                 <div class="code-container">
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copier le code">📋</button>
                     <div class="code-block">f = <span class="function">open</span>(<span class="string">"eleves.dat"</span>, <span class="string">"rb"</span>)</div>
                 </div>
             </div>
@@ -736,7 +741,7 @@
                 <h2><span class="emoji">🧩</span> 3️⃣ Remplir un fichier</h2>
                 <h3>a) Nombre d'éléments connu</h3>
                 <div class="code-container">
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copier le code">📋</button>
                     <div class="code-block"><span class="keyword">from</span> pickle <span class="keyword">import</span> dump
 
 <span class="keyword">def</span> <span class="function">remplir_binaire</span>(nom_fichier, n):
@@ -751,7 +756,7 @@
 
                 <h3>b) Nombre d'éléments inconnu</h3>
                 <div class="code-container">
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copier le code">📋</button>
                     <div class="code-block"><span class="keyword">from</span> pickle <span class="keyword">import</span> dump
 
 <span class="keyword">def</span> <span class="function">remplir_binaire</span>(nom_fichier):
@@ -770,9 +775,9 @@
             </div>
 
             <div class="card">
-                <h2><span class="emoji">🔄</span> 4️⃣ Parcourir un fichier</h2>
+                <h2><span class="emoji">📄</span> 4️⃣ Parcourir un fichier</h2>
                 <div class="code-container">
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copier le code">📋</button>
                     <div class="code-block"><span class="keyword">from</span> pickle <span class="keyword">import</span> load
 
 <span class="keyword">def</span> <span class="function">parcourir_binaire</span>(nom_fichier):
@@ -791,7 +796,7 @@
             <div class="card">
                 <h2><span class="emoji">👁️</span> 5️⃣ Afficher le contenu</h2>
                 <div class="code-container">
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copier le code">📋</button>
                     <div class="code-block"><span class="keyword">from</span> pickle <span class="keyword">import</span> load
 
 <span class="keyword">def</span> <span class="function">afficher_binaire</span>(nom_fichier):
@@ -810,7 +815,7 @@
             <div class="card">
                 <h2><span class="emoji">🎯</span> 6️⃣ Afficher selon condition</h2>
                 <div class="code-container">
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copier le code">📋</button>
                     <div class="code-block"><span class="keyword">from</span> pickle <span class="keyword">import</span> load
 
 <span class="keyword">def</span> <span class="function">afficher_selon_condition</span>(nom_fichier):
@@ -830,7 +835,7 @@
             <div class="card">
                 <h2><span class="emoji">🔍</span> 7️⃣ Rechercher un élément</h2>
                 <div class="code-container">
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copier le code">📋</button>
                     <div class="code-block"><span class="keyword">from</span> pickle <span class="keyword">import</span> load
 
 <span class="keyword">def</span> <span class="function">rechercher_binaire</span>(nom_fichier, valeur):
@@ -852,7 +857,7 @@
             <div class="card">
                 <h2><span class="emoji">❌</span> 8️⃣ Supprimer un élément</h2>
                 <div class="code-container">
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copier le code">📋</button>
                     <div class="code-block"><span class="keyword">from</span> pickle <span class="keyword">import</span> dump, load
 <span class="keyword">from</span> numpy <span class="keyword">import</span> array
 
@@ -881,7 +886,7 @@
             <div class="card">
                 <h2><span class="emoji">🔢</span> 9️⃣ Trier les éléments</h2>
                 <div class="code-container">
-                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <button class="copy-btn" onclick="copyCode(this)" title="Copier le code">📋</button>
                     <div class="code-block"><span class="keyword">from</span> pickle <span class="keyword">import</span> dump, load
 <span class="keyword">from</span> numpy <span class="keyword">import</span> array
 
@@ -955,19 +960,18 @@
             const codeText = codeBlock.innerText;
             
             navigator.clipboard.writeText(codeText).then(() => {
-                const originalText = button.innerHTML;
-                button.innerHTML = '✓ Copié !';
+                button.innerHTML = '✓';
                 button.classList.add('copied');
                 
                 setTimeout(() => {
-                    button.innerHTML = originalText;
+                    button.innerHTML = '📋';
                     button.classList.remove('copied');
                 }, 2000);
             }).catch(err => {
                 console.error('Erreur:', err);
-                button.innerHTML = '✗ Erreur';
+                button.innerHTML = '✗';
                 setTimeout(() => {
-                    button.innerHTML = '📋 Copier';
+                    button.innerHTML = '📋';
                 }, 2000);
             });
         }
