@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les Fichiers en Python - Programme Tunisien</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: white;
+            padding: 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: fadeInDown 0.8s ease;
+            overflow: hidden;
+        }
+
+        .header-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.95;
+            font-style: italic;
+        }
+
+        .tab-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .tab {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px 10px 0 0;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .tab:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-3px);
+        }
+
+        .tab.active {
+            background: white;
+            color: #667eea;
+            transform: translateY(0);
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            color: #667eea;
+            margin-bottom: 25px;
+            font-size: 2em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: #764ba2;
+            margin: 25px 0 15px 0;
+            font-size: 1.5em;
+        }
+
+        .definition {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+        .code-container {
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 25px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            border-left: 5px solid #667eea;
+            font-size: 1em;
+            line-height: 1.8;
+            white-space: pre;
+            tab-size: 4;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            z-index: 10;
+        }
+
+        .copy-btn:hover {
+            background: #764ba2;
+            transform: scale(1.05);
+        }
+
+        .copy-btn.copied {
+            background: #28a745;
+        }
+
+        .keyword {
+            color: #569cd6;
+            font-weight: bold;
+        }
+
+        .string {
+            color: #ce9178;
+        }
+
+        .comment {
+            color: #6a9955;
+            font-style: italic;
+        }
+
+        .function {
+            color: #dcdcaa;
+        }
+
+        .number {
+            color: #b5cea8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #e9ecef;
+        }
+
+        .note-box {
+            background: #d1ecf1;
+            border-left: 5px solid #17a2b8;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .key-points {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .key-points ul {
+            margin-left: 20px;
+        }
+
+        .key-points li {
+            margin: 10px 0;
+            line-height: 1.8;
+        }
+
+        ul {
+            margin-left: 25px;
+        }
+
+        li {
+            margin: 12px 0;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .emoji {
+            font-size: 1.3em;
+        }
+
+        footer {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .copyright-text {
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .copyright-text strong {
+            color: #667eea;
+            font-size: 1.2em;
+        }
+
+        .copyright-text .year {
+            color: #764ba2;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header-logo {
+                width: 80px;
+                height: 80px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .subtitle {
+                font-size: 0.9em;
+            }
+
+            .tab-container {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .tab {
+                padding: 12px 20px;
+                font-size: 0.95em;
+                border-radius: 10px;
+                width: 100%;
+            }
+
+            .card {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+
+            h2 {
+                font-size: 1.4em;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            h3 {
+                font-size: 1.2em;
+            }
+
+            .definition {
+                font-size: 1em;
+                padding: 15px;
+            }
+
+            .code-block {
+                padding: 15px;
+                font-size: 0.85em;
+            }
+
+            .copy-btn {
+                font-size: 0.75em;
+                padding: 6px 10px;
+            }
+
+            table {
+                font-size: 0.85em;
+            }
+
+            th, td {
+                padding: 10px 8px;
+            }
+
+            .key-points li {
+                font-size: 0.95em;
+            }
+
+            footer {
+                padding: 20px;
+            }
+
+            .copyright-text {
+                font-size: 0.95em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.2em;
+            }
+
+            .subtitle {
+                font-size: 0.8em;
+            }
+
+            .tab {
+                padding: 10px 15px;
+                font-size: 0.85em;
+            }
+
+            h2 {
+                font-size: 1.2em;
+            }
+
+            h3 {
+                font-size: 1.1em;
+            }
+
+            .code-block {
+                font-size: 0.75em;
+            }
+
+            table {
+                font-size: 0.75em;
+            }
+
+            th, td {
+                padding: 8px 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-logo">
+                <img src="https://i.imgur.com/6bHPR8g.png" alt="ABN Academy Logo">
+            </div>
+            <div>
+                <h1>📁 Les Fichiers en Python</h1>
+                <p class="subtitle">Programme tunisien d'Algorithmique et de Programmation</p>
+            </div>
+        </header>
+
+        <div class="tab-container">
+            <button class="tab active" onclick="showTab('texte')">📄 Fichiers Texte</button>
+            <button class="tab" onclick="showTab('binaire')">💾 Fichiers Binaires</button>
+        </div>
+
+        <!-- SECTION FICHIERS TEXTE -->
+        <div id="texte" class="content-section active">
+            <div class="card">
+                <h2><span class="emoji">🧾</span> 1️⃣ Définition et caractéristiques</h2>
+                <div class="definition">
+                    Un <strong>fichier texte</strong> est un <strong>fichier séquentiel</strong> constitué d'une <strong>suite de lignes</strong>, chaque ligne étant une <strong>chaîne de caractères</strong>.<br><br>
+                    Chaque ligne se termine par le caractère spécial <code>"\n"</code> (retour à la ligne).<br><br>
+                    Un fichier texte permet de <strong>stocker des informations permanentes</strong> sous une forme lisible par l'homme (caractères, chiffres, symboles).<br><br>
+                    Les valeurs numériques y sont enregistrées <strong>sous forme textuelle</strong>.
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="emoji">⚙️</span> 2️⃣ Ouverture et modes d'accès</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mode</th>
+                            <th>Signification</th>
+                            <th>Usage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>"r"</code></td>
+                            <td>Lecture</td>
+                            <td>Lire un fichier existant</td>
+                        </tr>
+                        <tr>
+                            <td><code>"w"</code></td>
+                            <td>Écriture</td>
+                            <td>Créer ou remplacer un fichier</td>
+                        </tr>
+                        <tr>
+                            <td><code>"a"</code></td>
+                            <td>Ajout</td>
+                            <td>Ajouter du texte à la fin du fichier</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p><strong>Exemple :</strong></p>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <div class="code-block">f = <span class="function">open</span>(<span class="string">"notes.txt"</span>, <span class="string">"r"</span>)</div>
+                </div>
+                <p>ouvre le fichier physique <strong>notes.txt</strong> en lecture.</p>
+            </div>
+
+            <div class="card">
+                <h2><span class="emoji">🔄</span> 3️⃣ Parcourir un fichier texte</h2>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <div class="code-block"><span class="keyword">def</span> <span class="function">parcourir_texte</span>(nom_fichier):
+    f = <span class="function">open</span>(nom_fichier, <span class="string">"r"</span>)
+    ligne = f.<span class="function">readline</span>()
+    <span class="keyword">while</span> ligne != <span class="string">""</span>:
+        ligne = ligne[:<span class="function">len</span>(ligne)-<span class="number">1</span>]
+        <span class="comment"># traitement sur la ligne</span>
+        ligne = f.<span class="function">readline</span>()
+    f.<span class="function">close</span>()</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="emoji">👁️</span> 4️⃣ Afficher le contenu</h2>
+                <h3>a) Affichage total</h3>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <div class="code-block"><span class="keyword">def</span> <span class="function">afficher_total</span>(nom_fichier):
+    f = <span class="function">open</span>(nom_fichier, <span class="string">"r"</span>)
+    contenu = f.<span class="function">read</span>()
+    <span class="function">print</span>(contenu)
+    f.<span class="function">close</span>()</div>
+                </div>
+
+                <h3>b) Affichage selon condition</h3>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <div class="code-block"><span class="keyword">def</span> <span class="function">afficher_selon_condition</span>(nom_fichier):
+    f = <span class="function">open</span>(nom_fichier, <span class="string">"r"</span>)
+    ligne = f.<span class="function">readline</span>()
+    <span class="keyword">while</span> ligne != <span class="string">""</span>:
+        ligne = ligne[:<span class="function">len</span>(ligne)-<span class="number">1</span>]
+        <span class="keyword">if</span> (condition sur la ligne):
+            <span class="function">print</span>(ligne)
+        ligne = f.<span class="function">readline</span>()
+    f.<span class="function">close</span>()</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="emoji">🧩</span> 5️⃣ Remplir un fichier texte</h2>
+                <h3>a) Nombre de lignes connu</h3>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <div class="code-block"><span class="keyword">def</span> <span class="function">remplir_texte</span>(nom_fichier, n):
+    f = <span class="function">open</span>(nom_fichier, <span class="string">"w"</span>)
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(n):
+        ch = <span class="function">input</span>(<span class="string">"Donner une ligne : "</span>)
+        f.<span class="function">write</span>(ch + <span class="string">"\n"</span>)
+    f.<span class="function">close</span>()</div>
+                </div>
+
+                <h3>b) Nombre de lignes inconnu</h3>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <div class="code-block"><span class="keyword">def</span> <span class="function">remplir_texte</span>(nom_fichier):
+    f = <span class="function">open</span>(nom_fichier, <span class="string">"w"</span>)
+    rep = <span class="string">"O"</span>
+    <span class="keyword">while</span> rep == <span class="string">"O"</span>:
+        ch = <span class="function">input</span>(<span class="string">"Donner une ligne : "</span>)
+        f.<span class="function">write</span>(ch + <span class="string">"\n"</span>)
+        rep = <span class="function">input</span>(<span class="string">"Ajouter une autre ligne O/N ? "</span>)
+        <span class="keyword">while not</span> (rep == <span class="string">"O"</span> <span class="keyword">or</span> rep == <span class="string">"N"</span>):
+            rep = <span class="function">input</span>(<span class="string">"Répondez par O ou N : "</span>)
+    f.<span class="function">close</span>()</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="emoji">🧮</span> 6️⃣ Compter les lignes</h2>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <div class="code-block"><span class="keyword">def</span> <span class="function">nombre_lignes</span>(nom_fichier):
+    f = <span class="function">open</span>(nom_fichier, <span class="string">"r"</span>)
+    n = <span class="number">0</span>
+    ligne = f.<span class="function">readline</span>()
+    <span class="keyword">while</span> ligne != <span class="string">""</span>:
+        n = n + <span class="number">1</span>
+        ligne = f.<span class="function">readline</span>()
+    f.<span class="function">close</span>()
+    <span class="keyword">return</span> n</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="emoji">🔍</span> 7️⃣ Rechercher une chaîne</h2>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <div class="code-block"><span class="keyword">def</span> <span class="function">rechercher_chaine</span>(nom_fichier, motif):
+    f = <span class="function">open</span>(nom_fichier, <span class="string">"r"</span>)
+    trouve = <span class="keyword">False</span>
+    ligne = f.<span class="function">readline</span>()
+    <span class="keyword">while</span> (ligne != <span class="string">""</span>) <span class="keyword">and</span> (<span class="keyword">not</span> trouve):
+        ligne = ligne[:<span class="function">len</span>(ligne)-<span class="number">1</span>]
+        <span class="keyword">if</span> (condition de recherche):
+            trouve = <span class="keyword">True</span>
+        <span class="keyword">else</span>:
+            ligne = f.<span class="function">readline</span>()
+    f.<span class="function">close</span>()
+    <span class="keyword">return</span> trouve</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="emoji">❌</span> 8️⃣ Supprimer une ligne</h2>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <div class="code-block"><span class="keyword">from</span> numpy <span class="keyword">import</span> array
+
+<span class="keyword">def</span> <span class="function">supprimer_ligne</span>(nom_fichier, ligne_sup):
+    f = <span class="function">open</span>(nom_fichier, <span class="string">"r"</span>)
+    t = <span class="function">array</span>([<span class="function">str</span>]*<span class="number">100</span>)
+    n = <span class="number">0</span>
+    ligne = f.<span class="function">readline</span>()
+    <span class="keyword">while</span> ligne != <span class="string">""</span>:
+        ligne = ligne[:<span class="function">len</span>(ligne)-<span class="number">1</span>]
+        <span class="keyword">if</span> ligne != ligne_sup:
+            t[n] = ligne
+            n = n + <span class="number">1</span>
+        ligne = f.<span class="function">readline</span>()
+    f.<span class="function">close</span>()
+    
+    f = <span class="function">open</span>(nom_fichier, <span class="string">"w"</span>)
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(n):
+        f.<span class="function">write</span>(t[i] + <span class="string">"\n"</span>)
+    f.<span class="function">close</span>()</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="emoji">🔢</span> 9️⃣ Trier les lignes</h2>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <div class="code-block"><span class="keyword">from</span> numpy <span class="keyword">import</span> array
+
+<span class="keyword">def</span> <span class="function">trier_fichier_texte</span>(nom_fichier):
+    f = <span class="function">open</span>(nom_fichier, <span class="string">"r"</span>)
+    t = <span class="function">array</span>([<span class="function">str</span>]*<span class="number">100</span>)
+    n = <span class="number">0</span>
+    ligne = f.<span class="function">readline</span>()
+    <span class="keyword">while</span> ligne != <span class="string">""</span>:
+        t[n] = ligne[:<span class="function">len</span>(ligne)-<span class="number">1</span>]
+        n = n + <span class="number">1</span>
+        ligne = f.<span class="function">readline</span>()
+    f.<span class="function">close</span>()
+    
+    <span class="function">trier_tableau</span>(t,n)
+    
+    f = <span class="function">open</span>(nom_fichier, <span class="string">"w"</span>)
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(n):
+        f.<span class="function">write</span>(t[i] + <span class="string">"\n"</span>)
+    f.<span class="function">close</span>()</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="emoji">✅</span> Points essentiels</h2>
+                <div class="key-points">
+                    <ul>
+                        <li>Un <strong>fichier texte</strong> contient des <strong>chaînes de caractères</strong></li>
+                        <li>Chaque ligne se termine par <code>"\n"</code></li>
+                        <li>Lecture séquentielle avec <code>readline()</code></li>
+                        <li>Suppression du retour avec <code>ligne[:len(ligne)-1]</code></li>
+                        <li>Toujours fermer le fichier avec <code>f.close()</code></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION FICHIERS BINAIRES -->
+        <div id="binaire" class="content-section">
+            <div class="card">
+                <h2><span class="emoji">🧾</span> 1️⃣ Définition</h2>
+                <div class="definition">
+                    Un <strong>fichier binaire</strong> est un <strong>fichier séquentiel</strong> d'<strong>éléments en forme binaire</strong>.<br><br>
+                    Chaque élément peut être :<br>
+                    • une <strong>valeur simple</strong> (entier, réel, chaîne, booléen)<br>
+                    • un <strong>enregistrement</strong> (structure avec plusieurs champs)
+                </div>
+
+                <div class="note-box">
+                    <strong>📘 Remarque :</strong><br>
+                    Dans le programme tunisien, tous les éléments d'un fichier binaire sont du <strong>même type</strong>.
+                </div>
+
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <div class="code-block"><span class="keyword">from</span> pickle <span class="keyword">import</span> dump, load</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="emoji">⚙️</span> 2️⃣ Modes d'accès</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mode</th>
+                            <th>Signification</th>
+                            <th>Usage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>"rb"</code></td>
+                            <td>Lecture binaire</td>
+                            <td>Lire un fichier binaire</td>
+                        </tr>
+                        <tr>
+                            <td><code>"wb"</code></td>
+                            <td>Écriture binaire</td>
+                            <td>Créer ou remplacer</td>
+                        </tr>
+                        <tr>
+                            <td><code>"ab"</code></td>
+                            <td>Ajout binaire</td>
+                            <td>Ajouter à la fin</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <div class="code-block">f = <span class="function">open</span>(<span class="string">"eleves.dat"</span>, <span class="string">"rb"</span>)</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="emoji">🧩</span> 3️⃣ Remplir un fichier</h2>
+                <h3>a) Nombre d'éléments connu</h3>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <div class="code-block"><span class="keyword">from</span> pickle <span class="keyword">import</span> dump
+
+<span class="keyword">def</span> <span class="function">remplir_binaire</span>(nom_fichier, n):
+    f = <span class="function">open</span>(nom_fichier, <span class="string">"wb"</span>)
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(n):
+        e = <span class="function">dict</span>()
+        e[<span class="string">'np'</span>] = <span class="function">input</span>(<span class="string">"Nom et prénom : "</span>)
+        e[<span class="string">'moy'</span>] = <span class="function">float</span>(<span class="function">input</span>(<span class="string">"Moyenne : "</span>))
+        <span class="function">dump</span>(e, f)
+    f.<span class="function">close</span>()</div>
+                </div>
+
+                <h3>b) Nombre d'éléments inconnu</h3>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <div class="code-block"><span class="keyword">from</span> pickle <span class="keyword">import</span> dump
+
+<span class="keyword">def</span> <span class="function">remplir_binaire</span>(nom_fichier):
+    f = <span class="function">open</span>(nom_fichier, <span class="string">"wb"</span>)
+    rep = <span class="string">"O"</span>
+    <span class="keyword">while</span> rep == <span class="string">"O"</span>:
+        e = <span class="function">dict</span>()
+        e[<span class="string">'np'</span>] = <span class="function">input</span>(<span class="string">"Nom et prénom : "</span>)
+        e[<span class="string">'moy'</span>] = <span class="function">float</span>(<span class="function">input</span>(<span class="string">"Moyenne : "</span>))
+        <span class="function">dump</span>(e, f)
+        rep = <span class="function">input</span>(<span class="string">"Ajouter un élève O/N ? "</span>)
+        <span class="keyword">while not</span> (rep == <span class="string">"O"</span> <span class="keyword">or</span> rep == <span class="string">"N"</span>):
+            rep = <span class="function">input</span>(<span class="string">"Répondez par O ou N : "</span>)
+    f.<span class="function">close</span>()</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="emoji">🔄</span> 4️⃣ Parcourir un fichier</h2>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <div class="code-block"><span class="keyword">from</span> pickle <span class="keyword">import</span> load
+
+<span class="keyword">def</span> <span class="function">parcourir_binaire</span>(nom_fichier):
+    f = <span class="function">open</span>(nom_fichier, <span class="string">"rb"</span>)
+    eof = <span class="keyword">False</span>
+    <span class="keyword">while not</span>(eof):
+        <span class="keyword">try</span>:
+            e = <span class="function">load</span>(f)
+            <span class="comment"># traitement sur e</span>
+        <span class="keyword">except</span>:
+            eof = <span class="keyword">True</span>
+    f.<span class="function">close</span>()</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="emoji">👁️</span> 5️⃣ Afficher le contenu</h2>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <div class="code-block"><span class="keyword">from</span> pickle <span class="keyword">import</span> load
+
+<span class="keyword">def</span> <span class="function">afficher_binaire</span>(nom_fichier):
+    f = <span class="function">open</span>(nom_fichier, <span class="string">"rb"</span>)
+    eof = <span class="keyword">False</span>
+    <span class="keyword">while not</span>(eof):
+        <span class="keyword">try</span>:
+            e = <span class="function">load</span>(f)
+            <span class="comment"># affichage selon le type</span>
+        <span class="keyword">except</span>:
+            eof = <span class="keyword">True</span>
+    f.<span class="function">close</span>()</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="emoji">🎯</span> 6️⃣ Afficher selon condition</h2>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <div class="code-block"><span class="keyword">from</span> pickle <span class="keyword">import</span> load
+
+<span class="keyword">def</span> <span class="function">afficher_selon_condition</span>(nom_fichier):
+    f = <span class="function">open</span>(nom_fichier, <span class="string">"rb"</span>)
+    eof = <span class="keyword">False</span>
+    <span class="keyword">while not</span>(eof):
+        <span class="keyword">try</span>:
+            e = <span class="function">load</span>(f)
+            <span class="keyword">if</span> (condition sur e):
+                <span class="comment"># affichage</span>
+        <span class="keyword">except</span>:
+            eof = <span class="keyword">True</span>
+    f.<span class="function">close</span>()</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="emoji">🔍</span> 7️⃣ Rechercher un élément</h2>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <div class="code-block"><span class="keyword">from</span> pickle <span class="keyword">import</span> load
+
+<span class="keyword">def</span> <span class="function">rechercher_binaire</span>(nom_fichier, valeur):
+    f = <span class="function">open</span>(nom_fichier, <span class="string">"rb"</span>)
+    eof = <span class="keyword">False</span>
+    trouve = <span class="keyword">False</span>
+    <span class="keyword">while not</span>(eof) <span class="keyword">and not</span>(trouve):
+        <span class="keyword">try</span>:
+            e = <span class="function">load</span>(f)
+            <span class="keyword">if</span> (condition de recherche):
+                trouve = <span class="keyword">True</span>
+        <span class="keyword">except</span>:
+            eof = <span class="keyword">True</span>
+    f.<span class="function">close</span>()
+    <span class="keyword">return</span> trouve</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="emoji">❌</span> 8️⃣ Supprimer un élément</h2>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <div class="code-block"><span class="keyword">from</span> pickle <span class="keyword">import</span> dump, load
+<span class="keyword">from</span> numpy <span class="keyword">import</span> array
+
+<span class="keyword">def</span> <span class="function">supprimer_binaire</span>(nom_fichier, condition_sup):
+    f = <span class="function">open</span>(nom_fichier, <span class="string">"rb"</span>)
+    t = <span class="function">array</span>([<span class="function">dict</span>]*<span class="number">100</span>)
+    n = <span class="number">0</span>
+    eof = <span class="keyword">False</span>
+    <span class="keyword">while not</span>(eof):
+        <span class="keyword">try</span>:
+            e = <span class="function">load</span>(f)
+            <span class="keyword">if not</span> (condition_sup sur e):
+                t[n] = e
+                n = n + <span class="number">1</span>
+        <span class="keyword">except</span>:
+            eof = <span class="keyword">True</span>
+    f.<span class="function">close</span>()
+    
+    f = <span class="function">open</span>(nom_fichier, <span class="string">"wb"</span>)
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(n):
+        <span class="function">dump</span>(t[i], f)
+    f.<span class="function">close</span>()</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="emoji">🔢</span> 9️⃣ Trier les éléments</h2>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">📋 Copier</button>
+                    <div class="code-block"><span class="keyword">from</span> pickle <span class="keyword">import</span> dump, load
+<span class="keyword">from</span> numpy <span class="keyword">import</span> array
+
+<span class="keyword">def</span> <span class="function">trier_fichier_binaire</span>(nom_fichier):
+    f = <span class="function">open</span>(nom_fichier, <span class="string">"rb"</span>)
+    t = <span class="function">array</span>([<span class="function">dict</span>()]*<span class="number">100</span>)
+    n = <span class="number">0</span>
+    eof = <span class="keyword">False</span>
+    <span class="keyword">while not</span>(eof):
+        <span class="keyword">try</span>:
+            t[n] = <span class="function">load</span>(f)
+            n = n + <span class="number">1</span>
+        <span class="keyword">except</span>:
+            eof = <span class="keyword">True</span>
+    f.<span class="function">close</span>()
+    
+    <span class="function">trier_tableau</span>(t,n)
+    
+    f = <span class="function">open</span>(nom_fichier, <span class="string">"wb"</span>)
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(n):
+        <span class="function">dump</span>(t[i], f)
+    f.<span class="function">close</span>()</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="emoji">✅</span> Points essentiels</h2>
+                <div class="key-points">
+                    <ul>
+                        <li>Un <strong>fichier binaire</strong> contient des éléments <strong>de même type</strong></li>
+                        <li>Écriture et lecture avec <code>dump()</code> et <code>load()</code></li>
+                        <li>Parcours séquentiel avec <code>try/except</code></li>
+                        <li>Toujours fermer avec <code>f.close()</code></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="footer-content">
+                <div class="copyright-text">
+                    <strong>ABN Academy</strong><br>
+                    © <span class="year" id="currentYear"></span> Anis Ben Nacib<br>
+                    <small>Tous droits réservés</small>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        function showTab(tab) {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            document.getElementById(tab).classList.add('active');
+            event.target.classList.add('active');
+            
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function copyCode(button) {
+            const codeContainer = button.parentElement;
+            const codeBlock = codeContainer.querySelector('.code-block');
+            const codeText = codeBlock.innerText;
+            
+            navigator.clipboard.writeText(codeText).then(() => {
+                const originalText = button.innerHTML;
+                button.innerHTML = '✓ Copié !';
+                button.classList.add('copied');
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Erreur:', err);
+                button.innerHTML = '✗ Erreur';
+                setTimeout(() => {
+                    button.innerHTML = '📋 Copier';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
